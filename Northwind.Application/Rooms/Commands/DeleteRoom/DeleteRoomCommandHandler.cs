@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Northwind.Application.Exceptions;
@@ -33,12 +29,6 @@ namespace Northwind.Application.Rooms.Commands.DeleteRoom
                 throw new NotFoundException(nameof(Room), request.Id);
             }
 
-            //var hasOrders = _context.Orders.Any(o => o.RoomId == entity.RoomId);
-            //if (hasOrders)
-            //{
-            //    throw new DeleteFailureException(nameof(Room), request.Id, "There are existing orders associated with this customer.");
-            //}
-
             _context.Rooms.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -48,7 +38,6 @@ namespace Northwind.Application.Rooms.Commands.DeleteRoom
                 "Notification: New room has been deleted",
                 $"A room with id = {entity.RoomId} has been deleted"
                 );
-
 
             return Unit.Value;
         }

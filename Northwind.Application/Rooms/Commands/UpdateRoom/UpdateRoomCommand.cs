@@ -1,11 +1,9 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Northwind.Application.Rooms.Models;
 
 namespace Northwind.Application.Rooms.Commands.UpdateRoom
 {
-    public class UpdateRoomCommand : IRequest
+    public class UpdateRoomCommand : IRequest<RoomViewModel>
     {
         public int RoomId { get; set; }
         public string Name { get; set; }

@@ -5,6 +5,10 @@
     <AssemblyName>Northwind.Application</AssemblyName>
     <RootNamespace>Northwind.Application</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Rooms\Models\RoomDto.cs" />
+    <Compile Remove="Rooms\Queries\GetRooms\RoomsListViewModel.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />

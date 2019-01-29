@@ -8,14 +8,8 @@ namespace Northwind.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Room> builder)
         {
-            builder.HasKey(e => e.RoomId);
-
             builder.Property(e => e.RoomId).HasColumnName("RoomID");
             builder.Property(e => e.Name).HasMaxLength(30);
-            //builder.Property(e => e.NumberOfSeats)
-            //builder.Property(e => e.Area)
-            //builder.Property(e => e.WifiAccess)
-            //builder.Property(e => e.Calendar)
         }
     }
 }

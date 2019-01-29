@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Rooms.Models;
 using Northwind.Persistence;
-using AutoMapper;
 using Dapper;
 
 namespace Northwind.Application.Rooms.Queries.GetRooms

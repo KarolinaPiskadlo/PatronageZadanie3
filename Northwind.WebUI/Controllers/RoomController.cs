@@ -22,18 +22,10 @@ namespace Northwind.WebUI.Controllers
     {
         // GET: api/Room
         [HttpGet]
-        public async Task<ActionResult<RoomsListViewModel>> GetAll()
+        public async Task<ActionResult<RoomViewModel>> GetAll()
         {
             return Ok(await Mediator.Send(new GetRoomsQuery()));
         }
-        //public async Task<IActionResult> GetRooms([FromQuery] GetRoomsQuery query)
-        //{
-        //    return Ok(await Mediator.Send(query));
-        //}
-        //public async Task<IActionResult> Get()
-        //{
-        //    return Ok(await Mediator.Send(new GetRoomsQuery()));
-        //}
 
         // GET: api/Room/5/calendar
         [HttpGet("{id}/calendar")]
@@ -52,7 +44,7 @@ namespace Northwind.WebUI.Controllers
         // POST: api/Room
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Create([FromBody]CreateRoomCommand command)
+        public async Task<ActionResult<RoomViewModel>> Create([FromBody]CreateRoomCommand command)
         {
             await Mediator.Send(command);
 
@@ -61,7 +53,7 @@ namespace Northwind.WebUI.Controllers
 
         // PUT: api/Room/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody]UpdateRoomCommand command)
+        public async Task<ActionResult<RoomViewModel>> Update(int id, [FromBody]UpdateRoomCommand command)
         {
             await Mediator.Send(command);
 

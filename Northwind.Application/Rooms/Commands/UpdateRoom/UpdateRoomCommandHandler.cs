@@ -1,30 +1,30 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Exceptions;
+using Northwind.Application.Rooms.Models;
 using Northwind.Application.Rooms.Services;
 using Northwind.Domain.Entities;
 using Northwind.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace Northwind.Application.Rooms.Commands.UpdateRoom
 {
-    public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, Unit>
+    public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomViewModel>
     {
         private readonly NorthwindDbContext _context;
         private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UpdateRoomCommandHandler(NorthwindDbContext context, IEmailService emailService)
+        public UpdateRoomCommandHandler(NorthwindDbContext context, IEmailService emailService, IMapper mapper)
         {
             _context = context;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
+        public async Task<RoomViewModel> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Rooms
                 .SingleAsync(c => c.RoomId == request.RoomId, cancellationToken);
@@ -49,7 +49,7 @@ namespace Northwind.Application.Rooms.Commands.UpdateRoom
                $"A room with id = {entity.RoomId} has been updated"
                );
 
-            return Unit.Value;
+            return _mapper.Map<RoomViewModel>(entity);
         }
     }
 }
