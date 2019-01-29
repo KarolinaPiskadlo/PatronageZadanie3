@@ -12,7 +12,9 @@ using Northwind.Application.Infrastructure;
 using Northwind.Application.Infrastructure.AutoMapper;
 using Northwind.Application.Interfaces;
 using Northwind.Application.Rooms.Commands.CreateRoom;
+using Northwind.Application.Rooms.Models;
 using Northwind.Application.Rooms.Queries.GetRooms;
+using Northwind.Application.Rooms.Services;
 using Northwind.Common;
 using Northwind.Infrastructure;
 using Northwind.Persistence;
@@ -70,6 +72,7 @@ namespace Northwind.WebUI
             }
             );
 
+            services.AddTransient<IEmailService, EmailService>();
 
             // Customise default API behavour
             services.Configure<ApiBehaviorOptions>(options =>

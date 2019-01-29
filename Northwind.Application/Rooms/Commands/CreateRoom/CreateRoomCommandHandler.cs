@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Northwind.Application.Interfaces;
+using Northwind.Application.Rooms.Services;
 using Northwind.Domain.Entities;
 using Northwind.Persistence;
 using System;
@@ -16,15 +17,18 @@ namespace Northwind.Application.Rooms.Commands.CreateRoom
         private readonly NorthwindDbContext _context;
         private readonly INotificationService _notificationService;
         private readonly IMediator _mediator;
+        private readonly IEmailService _emailService;
 
         public CreateRoomCommandHandler(
             NorthwindDbContext context, 
             INotificationService notificationService,
-            IMediator mediator)
+            IMediator mediator,
+            IEmailService emailService)
         {
             _context = context;
             _notificationService = notificationService;
             _mediator = mediator;
+            _emailService = emailService;
         }
 
         
@@ -44,6 +48,12 @@ namespace Northwind.Application.Rooms.Commands.CreateRoom
 
             await _context.SaveChangesAsync(cancellationToken);
 
+            await _emailService.SendEmail(
+                "zadanie3.patronage@gmail.com",
+                "Notification: New room Created",
+                $"You created a room with id = {entity.RoomId}"
+                );
+            
            // await _mediator.Publish(new RoomCreated { RoomId = entity.Name });
 
             return Unit.Value;
