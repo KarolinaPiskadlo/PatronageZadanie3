@@ -4,6 +4,7 @@ using Northwind.Application.Rooms.Models;
 using Northwind.Application.Rooms.Services;
 using Northwind.Domain.Entities;
 using Northwind.Persistence;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,23 @@ namespace Northwind.Application.Rooms.Commands.CreateRoom
                 Calendar = request.Calendar
             };
 
+            char[] separator = new char[] { ',' };
+            string[] dates;
+
+            dates = entity.Calendar.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var oneDate in dates)
+            {
+                try
+                {
+                    DateTime.Parse(oneDate.Trim());
+                }
+                catch
+                {
+                    throw new Exception("Not correct date format");
+                }
+            }
+
             _context.Rooms.Add(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -45,15 +63,7 @@ namespace Northwind.Application.Rooms.Commands.CreateRoom
                 $"A room with id = {entity.RoomId} has been created"
                 );
 
-            //var room = new Room
-            //{
-            //    Name = "malutki",
-            //    NumberOfSeats = 30,
-            //    Area = 30,
-            //    Calendar = "data"
-            //};
-
-            return _mapper.Map<RoomViewModel>(room);
+            return _mapper.Map<RoomViewModel>(entity);
         }
     }
 }
