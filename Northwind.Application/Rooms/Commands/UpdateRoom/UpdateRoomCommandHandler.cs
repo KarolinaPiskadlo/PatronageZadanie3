@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Exceptions;
+using Northwind.Application.Rooms.Services;
 using Northwind.Domain.Entities;
 using Northwind.Persistence;
 using System;
@@ -9,15 +10,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Northwind.Application.Rooms.Commands.UpdateRoom
 {
     public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, Unit>
     {
         private readonly NorthwindDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public UpdateRoomCommandHandler(NorthwindDbContext context)
+        public UpdateRoomCommandHandler(NorthwindDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public async Task<Unit> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
@@ -38,6 +42,12 @@ namespace Northwind.Application.Rooms.Commands.UpdateRoom
             _context.Rooms.Update(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            await _emailService.SendEmail(
+               "zadanie3.patronage@gmail.com",
+               "Notification: New room has been updated",
+               $"A room with id = {entity.RoomId} has been updated"
+               );
 
             return Unit.Value;
         }

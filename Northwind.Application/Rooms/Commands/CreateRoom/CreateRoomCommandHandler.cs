@@ -50,8 +50,8 @@ namespace Northwind.Application.Rooms.Commands.CreateRoom
 
             await _emailService.SendEmail(
                 "zadanie3.patronage@gmail.com",
-                "Notification: New room Created",
-                $"You created a room with id = {entity.RoomId}"
+                "Notification: New room has been created",
+                $"A room with id = {entity.RoomId} has been created"
                 );
             
            // await _mediator.Publish(new RoomCreated { RoomId = entity.Name });
